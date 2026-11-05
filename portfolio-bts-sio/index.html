@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio — BTS SIO SISR</title>
+  <meta name="description" content="Portfolio BTS SIO option SISR : projets, compétences et documentation technique.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="container">
+      <a class="logo" href="index.html">Prénom<span>.</span>Nom</a>
+      <div class="nav-links">
+        <a href="#apropos" class="hide-sm">À propos</a>
+        <a href="#competences" class="hide-sm">Compétences</a>
+        <a href="#projets">Projets</a>
+        <a href="#synthese" class="hide-sm">Synthèse</a>
+        <a href="#veille" class="hide-sm">Veille</a>
+        <div id="nav-auth"></div>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="container">
+      <span class="tag-sisr">BTS SIO — option SISR</span>
+      <h1>Bonjour, je suis <span>Prénom Nom</span></h1>
+      <p>Étudiant en BTS Services Informatiques aux Organisations, spécialité Solutions d'Infrastructure, Systèmes et Réseaux. Ce portfolio présente mes réalisations professionnelles en formation et en stage.</p>
+      <div class="actions">
+        <a class="btn" href="#projets">Voir mes projets</a>
+        <a class="btn btn-ghost" href="cv.pdf" target="_blank">Télécharger mon CV</a>
+      </div>
+    </div>
+  </header>
+
+  <section id="apropos">
+    <div class="container">
+      <h2>À propos</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Formation</h3>
+          <p class="muted">BTS SIO option SISR — Nom du lycée / de l'école (2025 – 2027)<br>Baccalauréat … (2025)</p>
+        </div>
+        <div class="card">
+          <h3>Stages</h3>
+          <p class="muted">1re année : Entreprise X — Technicien support (6 semaines)<br>2e année : Entreprise Y — Administrateur systèmes (8 semaines)</p>
+        </div>
+        <div class="card">
+          <h3>Objectif</h3>
+          <p class="muted">Poursuivre en licence professionnelle / bachelor administration systèmes, réseaux et cybersécurité.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="competences">
+    <div class="container">
+      <h2>Compétences techniques</h2>
+      <div class="grid">
+        <div class="card"><h3>Systèmes</h3><div class="badges"><span class="badge">Windows Server</span><span class="badge">Active Directory</span><span class="badge">GPO</span><span class="badge">Debian / Ubuntu</span><span class="badge">Proxmox</span></div></div>
+        <div class="card"><h3>Réseaux</h3><div class="badges"><span class="badge">VLAN</span><span class="badge">Routage</span><span class="badge">DHCP / DNS</span><span class="badge">Cisco</span><span class="badge">pfSense</span></div></div>
+        <div class="card"><h3>Services & sécurité</h3><div class="badges"><span class="badge">GLPI</span><span class="badge">Zabbix</span><span class="badge">VPN</span><span class="badge">Sauvegardes</span><span class="badge">PowerShell / Bash</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projets">
+    <div class="container">
+      <h2>Mes projets</h2>
+      <p class="muted">Clique sur un projet pour voir le détail. La documentation technique est réservée aux comptes autorisés.</p>
+      <div class="grid" id="projets-grid"><p class="empty">Chargement…</p></div>
+    </div>
+  </section>
+
+  <section id="synthese">
+    <div class="container">
+      <h2>Tableau de synthèse des compétences</h2>
+      <p class="muted">Correspondance entre mes réalisations et les compétences du bloc 1.</p>
+      <div class="table-wrap" id="synthese-table"><p class="empty" style="padding:16px">Chargement…</p></div>
+    </div>
+  </section>
+
+  <section id="veille">
+    <div class="container">
+      <h2>Veille technologique</h2>
+      <div class="card">
+        <h3>Sujet : …</h3>
+        <p class="muted">Présente ici ton sujet de veille, tes sources (flux RSS, newsletters, sites spécialisés comme le CERT-FR ou l'ANSSI) et une synthèse de ce que tu as appris.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      © <span id="annee"></span> Prénom Nom — <a href="mailto:ton.email@exemple.fr">ton.email@exemple.fr</a> — <a href="https://www.linkedin.com/" target="_blank">LinkedIn</a>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/index.js"></script>
+</body>
+</html>

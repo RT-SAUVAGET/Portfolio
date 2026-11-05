@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Administration — Portfolio</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="container">
+      <a class="logo" href="index.html">Prénom<span>.</span>Nom</a>
+      <div class="nav-links">
+        <a href="index.html">Voir le site</a>
+        <div id="nav-auth"></div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container" style="padding:40px 0 80px">
+    <div id="guard"><p class="empty">Vérification des droits…</p></div>
+
+    <div id="admin" hidden>
+      <h1>Administration</h1>
+      <div class="admin-tabs">
+        <button class="btn btn-ghost active" data-tab="liste">Mes projets</button>
+        <button class="btn btn-ghost" data-tab="form" id="tab-form">+ Nouveau projet</button>
+        <button class="btn btn-ghost" data-tab="docs">Documents</button>
+      </div>
+
+      <!-- Liste des projets -->
+      <div class="panel" id="panel-liste">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Visuel</th><th>Titre</th><th>Contexte</th><th>Date</th><th>Docs</th><th>Actions</th></tr></thead>
+            <tbody id="projets-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Formulaire projet -->
+      <div class="panel card" id="panel-form" hidden>
+        <h2 id="form-title">Nouveau projet</h2>
+        <form id="projet-form">
+          <div class="field">
+            <label for="titre">Titre *</label>
+            <input id="titre" name="titre" required maxlength="150">
+          </div>
+          <div class="row">
+            <div class="field">
+              <label for="contexte">Contexte</label>
+              <input id="contexte" name="contexte" list="contextes" placeholder="Formation, Stage 1re année…">
+              <datalist id="contextes">
+                <option value="Formation"><option value="Stage 1re année"><option value="Stage 2e année"><option value="Projet personnel">
+              </datalist>
+            </div>
+            <div class="field">
+              <label for="date_projet">Date</label>
+              <input type="date" id="date_projet" name="date_projet">
+            </div>
+            <div class="field">
+              <label for="ordre">Ordre d'affichage</label>
+              <input type="number" id="ordre" name="ordre" value="0">
+            </div>
+          </div>
+          <div class="field">
+            <label for="resume">Résumé (affiché sur la carte)</label>
+            <input id="resume" name="resume" maxlength="250">
+          </div>
+          <div class="field">
+            <label for="description">Description détaillée</label>
+            <textarea id="description" name="description" rows="8" placeholder="Contexte, besoin, solution mise en place, résultats…"></textarea>
+          </div>
+          <div class="field">
+            <label for="technologies">Technologies (séparées par des virgules)</label>
+            <input id="technologies" name="technologies" placeholder="Windows Server 2022, Active Directory, GPO">
+          </div>
+          <div class="field">
+            <label>Compétences du bloc 1 mobilisées</label>
+            <div class="checks" id="competences-checks"></div>
+          </div>
+          <div class="field">
+            <label for="image">Image de couverture (optionnel)</label>
+            <input type="file" id="image" name="image" accept="image/*">
+            <div id="image-actuelle" class="meta" style="margin-top:6px"></div>
+          </div>
+          <div id="form-msg"></div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button class="btn" type="submit">Enregistrer</button>
+            <button class="btn btn-ghost" type="button" id="annuler">Annuler</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Documents -->
+      <div class="panel card" id="panel-docs" hidden>
+        <h2>Documents des projets</h2>
+        <div class="field">
+          <label for="doc-projet">Projet</label>
+          <select id="doc-projet"></select>
+        </div>
+        <label class="dropzone" id="dropzone">
+          <input type="file" id="doc-files" multiple hidden>
+          <strong>Clique ou glisse tes fichiers ici</strong><br>
+          <span class="meta">PDF, Word, captures, fichiers de configuration… (50 Mo max par fichier)</span>
+        </label>
+        <div id="docs-msg" style="margin:12px 0"></div>
+        <ul class="doc-list" id="docs-list"></ul>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
