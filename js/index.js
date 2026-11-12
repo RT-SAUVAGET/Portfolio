@@ -21,32 +21,36 @@ document.getElementById("annee").textContent = new Date().getFullYear();
     grid.innerHTML = `<p class="alert">Erreur de chargement : ${esc(error.message)}</p>`;
     return;
   }
-  if (!projets.length) {
-    grid.innerHTML = '<p class="empty">Aucun projet pour le moment.</p>';
-    synthese.innerHTML = '<p class="empty" style="padding:16px">Aucun projet.</p>';
-    return;
-  }
 
-  grid.innerHTML = projets.map((p) => `
+  document.getElementById("nb-projets").textContent = projets.length;
+
+  grid.innerHTML = projets.length
+    ? projets.map((p) => `
     <a class="card projet-card" href="projet.html?id=${p.id}">
       <div class="cover">${p.image_url ? `<img src="${esc(p.image_url)}" alt="" loading="lazy">` : esc(p.titre.charAt(0))}</div>
       <div class="body">
-        <h3>${esc(p.titre)}</h3>
         <div class="meta">${esc(p.contexte || "")}${p.contexte && p.date_projet ? " · " : ""}${formatDate(p.date_projet)}</div>
-        <p class="muted" style="margin:0">${esc(p.resume || "")}</p>
-        <div class="badges">${(p.technologies || []).map((t) => `<span class="badge">${esc(t)}</span>`).join("")}</div>
+        <h3>${esc(p.titre)}</h3>
+        <p class="muted" style="margin:0;font-size:.9rem">${esc(p.resume || "")}</p>
+        <div class="badges" style="margin-top:auto;padding-top:8px">${(p.technologies || []).slice(0, 5).map((t) => `<span class="badge">${esc(t)}</span>`).join("")}</div>
       </div>
-    </a>`).join("");
+    </a>`).join("")
+    : '<p class="empty">Aucun projet pour le moment.</p>';
 
+  // Tableau de synthèse : projets + ligne fixe pour la veille (B1.6)
+  const lignes = [
+    ...projets.map((p) => ({ titre: p.titre, lien: `projet.html?id=${p.id}`, comp: p.competences || [] })),
+    { titre: "Veille One Piece TCG", lien: "#veille", comp: ["B1.6"] },
+  ];
   const codes = Object.keys(COMPETENCES);
   synthese.innerHTML = `
     <table>
       <thead><tr><th>Réalisation</th>${codes.map((c) => `<th class="c" title="${esc(COMPETENCES[c])}">${c}</th>`).join("")}</tr></thead>
       <tbody>
-        ${projets.map((p) => `
+        ${lignes.map((l) => `
           <tr>
-            <td><a href="projet.html?id=${p.id}">${esc(p.titre)}</a></td>
-            ${codes.map((c) => `<td class="check">${(p.competences || []).includes(c) ? "✓" : ""}</td>`).join("")}
+            <td><a href="${l.lien}">${esc(l.titre)}</a></td>
+            ${codes.map((c) => `<td class="check">${l.comp.includes(c) ? "✓" : ""}</td>`).join("")}
           </tr>`).join("")}
       </tbody>
     </table>`;

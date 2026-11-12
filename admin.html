@@ -4,13 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex">
-  <title>Administration — Portfolio</title>
+  <title>Administration — Portfolio Romain Sauvaget</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <nav class="nav">
     <div class="container">
-      <a class="logo" href="index.html">Prénom<span>.</span>Nom</a>
+      <a class="logo" href="index.html">SIO <span>SISR</span></a>
       <div class="nav-links">
         <a href="index.html">Voir le site</a>
         <div id="nav-auth"></div>
@@ -70,7 +73,8 @@
           </div>
           <div class="field">
             <label for="description">Description détaillée</label>
-            <textarea id="description" name="description" rows="8" placeholder="Contexte, besoin, solution mise en place, résultats…"></textarea>
+            <textarea id="description" name="description" rows="16" placeholder="## Contexte&#10;Texte…&#10;&#10;## Objectifs&#10;- premier objectif&#10;- second objectif"></textarea>
+            <p class="hint">Mise en forme : <code>## Titre</code> · <code>- élément de liste</code> · <code>**gras**</code> · un schéma entre deux lignes <code>```</code></p>
           </div>
           <div class="field">
             <label for="technologies">Technologies (séparées par des virgules)</label>
