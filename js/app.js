@@ -21,35 +21,6 @@ function esc(v) {
   );
 }
 
-// Mise en forme simple des descriptions :
-//   ## Titre   - élément de liste   **gras**   ``` bloc (schéma) ```
-function renderRich(src) {
-  const inline = (s) => esc(s).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
-  const lines = String(src || "").replace(/\r/g, "").split("\n");
-  let html = "", para = [], list = false, code = null;
-  const flushPara = () => { if (para.length) { html += `<p>${para.map(inline).join("<br>")}</p>`; para = []; } };
-  const closeList = () => { if (list) { html += "</ul>"; list = false; } };
-
-  for (const line of lines) {
-    const t = line.trim();
-    if (code !== null) {
-      if (t.startsWith("```")) { html += `<pre>${esc(code.join("\n"))}</pre>`; code = null; }
-      else code.push(line);
-      continue;
-    }
-    if (t.startsWith("```")) { flushPara(); closeList(); code = []; continue; }
-    if (!t) { flushPara(); closeList(); continue; }
-    if (t.startsWith("## ")) { flushPara(); closeList(); html += `<h3>${inline(t.slice(3))}</h3>`; continue; }
-    if (/^[-*] /.test(t)) { flushPara(); if (!list) { html += "<ul>"; list = true; } html += `<li>${inline(t.slice(2))}</li>`; continue; }
-    closeList();
-    para.push(t);
-  }
-  if (code !== null) html += `<pre>${esc(code.join("\n"))}</pre>`;
-  flushPara();
-  closeList();
-  return html;
-}
-
 function formatDate(d) {
   if (!d) return "";
   return new Date(d).toLocaleDateString("fr-FR", { month: "long", year: "numeric" });

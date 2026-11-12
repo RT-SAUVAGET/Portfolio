@@ -45,10 +45,6 @@ update public.profiles set role = 'admin'
 where id = (select id from auth.users where email = 'ton.email@exemple.fr');
 ```
 
-### 3 bis. Importer les projets du portfolio V4
-Dans le SQL Editor, colle le contenu de `supabase/import-projets.sql`, puis clique sur **Run** (une seule fois).
-Dans le champ « Description » de l'administration, tu peux utiliser `## Titre`, `- liste`, `**gras**` et des schémas entre deux lignes ```` ``` ````.
-
 ### 4. Configurer le site
 **Project Settings** > **API** : copie l'**URL du projet** et la clé **anon public** dans `js/config.js`.
 

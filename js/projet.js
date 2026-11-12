@@ -23,22 +23,22 @@
     </div>
     ${p.image_url ? `<div class="projet-cover"><img src="${esc(p.image_url)}" alt=""></div>` : ""}
     <div class="projet-layout">
-      <div style="display:grid;gap:28px;grid-template-columns:minmax(0,1fr)">
-        <div class="card rich">${renderRich(p.description || "Pas de description.")}</div>
-        <div class="card">
-          <h2 style="font-size:1.4rem">Documentation</h2>
-          <div id="docs"></div>
-        </div>
+      <div>
+        <h2>Description</h2>
+        <div class="prose">${esc(p.description || "Pas de description.")}</div>
+
+        <h2 style="margin-top:40px">Documentation</h2>
+        <div id="docs"></div>
       </div>
       <aside>
-        <div class="card">
-          <h3>Technologies utilisées</h3>
-          <div class="badges">${(p.technologies || []).map((t) => `<span class="badge blue">${esc(t)}</span>`).join("") || '<span class="empty">—</span>'}</div>
+        <div class="card" style="margin-bottom:20px">
+          <h3>Technologies</h3>
+          <div class="badges">${(p.technologies || []).map((t) => `<span class="badge">${esc(t)}</span>`).join("") || '<span class="empty">—</span>'}</div>
         </div>
         <div class="card">
-          <h3>Compétences BTS (bloc 1)</h3>
+          <h3>Compétences mobilisées</h3>
           ${(p.competences || []).length
-            ? `<ul class="check-list" style="margin:0">${p.competences.map((c) => `<li><strong>${esc(c)}</strong> — ${esc(COMPETENCES[c] || "")}</li>`).join("")}</ul>`
+            ? `<ul style="padding-left:18px;margin:0">${p.competences.map((c) => `<li><strong>${esc(c)}</strong> — <span class="muted">${esc(COMPETENCES[c] || "")}</span></li>`).join("")}</ul>`
             : '<span class="empty">—</span>'}
         </div>
       </aside>
