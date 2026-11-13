@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tableau de synthèse E5 — Portfolio BTS SIO</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .synth-page { padding: 48px 0 80px; }
+    .synth-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; margin-bottom: 24px; }
+    .synth-head h1 { margin: 0; font-size: clamp(1.6rem, 3.5vw, 2.3rem); }
+    .synth-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .kicker { font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; color: var(--accent-2); margin-bottom: 6px; }
+
+    .infos { display: grid; gap: 4px 24px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin-bottom: 20px; font-size: .92rem; }
+    .infos span { color: var(--muted); }
+    .infos-form { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-bottom: 20px; }
+    .infos-form label { margin-bottom: 4px; }
+    .radio-row { display: flex; gap: 16px; padding-top: 8px; }
+    .radio-row label { display: flex; gap: 6px; align-items: center; color: var(--text); margin: 0; }
+    .radio-row input { width: auto; }
+
+    [hidden] { display: none !important; }
+    table.e5 { min-width: 1000px; table-layout: fixed; }
+    table.e5 col.c-real { width: 33%; }
+    table.e5 col.c-per { width: 12%; }
+    table.e5 col.c-adm { width: 64px; }
+    table.e5 th { vertical-align: bottom; font-family: inherit; font-size: .78rem; line-height: 1.3; letter-spacing: 0; }
+    table.e5 th.comp { text-align: center; cursor: help; font-size: .72rem; font-weight: 500; padding: 10px 6px; overflow-wrap: break-word; hyphens: auto; }
+    table.e5 th.comp b { display: block; font-size: .85rem; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
+    table.e5 input, table.e5 textarea, table.e5 select { font-family: inherit; }
+    table.e5 td { vertical-align: top; font-size: .9rem; }
+    table.e5 td.ck { text-align: center; vertical-align: middle; color: var(--accent); font-weight: 700; font-size: 1.05rem; }
+    table.e5 td.ck input { width: 18px; height: 18px; cursor: pointer; accent-color: var(--accent); }
+    tr.section td { background: var(--bg-2); font-weight: 700; color: var(--text); }
+    tr.section td .count { font-weight: 400; color: var(--muted); font-size: .8rem; margin-left: 8px; }
+    .docs { white-space: pre-line; color: var(--muted); font-size: .85rem; margin-top: 4px; }
+    .per { white-space: nowrap; font-size: .85rem; }
+
+    table.e5 input[type=text], table.e5 input[type=date], table.e5 textarea, table.e5 select { padding: 6px 8px; font-size: .85rem; }
+    table.e5 textarea { min-height: 58px; margin-top: 6px; }
+    table.e5 select { margin-top: 6px; }
+    .per-edit { display: grid; gap: 6px; }
+    .per-edit small { color: var(--muted); font-size: .72rem; }
+    .row-tools { display: flex; flex-direction: column; gap: 4px; align-items: stretch; }
+    .row-tools .btn { justify-content: center; padding: 4px 6px; }
+    tr.add td { background: transparent; }
+    .add-bar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .add-bar select { width: auto; max-width: 340px; padding: 6px 8px; font-size: .85rem; }
+    .saved { font-size: .8rem; color: var(--muted); min-height: 1.2em; }
+    .legend { margin-top: 16px; font-size: .82rem; color: var(--muted); }
+
+    @media print {
+      @page { size: A4 landscape; margin: 10mm; }
+      :root { --bg: #fff; --bg-2: #eef2f8; --card: #f6f8fb; --border: #c8d0dc; --text: #111; --muted: #444; --accent: #0a4fb3; }
+      body { background: #fff !important; color: #111; }
+      .nav, .synth-actions, .no-print, footer, .config-banner { display: none !important; }
+      .synth-page { padding: 0; }
+      .container { width: 100%; }
+      .table-wrap { overflow: visible; border-color: #999; }
+      table.e5 { min-width: 0; font-size: 9pt; }
+      table.e5 th, table.e5 td { padding: 5px 6px; border-color: #999; }
+      tr { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container">
+      <a class="logo" href="index.html">SIO <span>SISR</span></a>
+      <div class="nav-links">
+        <a href="index.html">Accueil</a>
+        <a href="index.html#projets">Projets</a>
+        <div id="nav-auth"></div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container synth-page">
+    <div class="synth-head">
+      <div>
+        <div class="kicker">BTS SIO — Épreuve E5</div>
+        <h1>Tableau de synthèse des réalisations professionnelles</h1>
+      </div>
+      <div class="synth-actions">
+        <button class="btn btn-ghost btn-sm" onclick="window.print()">Imprimer / PDF</button>
+        <button class="btn btn-sm" id="btn-xlsx" hidden>Télécharger le tableau officiel (.xlsx)</button>
+      </div>
+    </div>
+
+    <div id="infos"></div>
+    <div class="table-wrap"><div id="tableau"><p class="empty" style="padding:16px">Chargement…</p></div></div>
+    <p class="legend no-print">Survole un code de compétence pour voir son détail. Période au format JJ/MM/AA.</p>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/synthese.js"></script>
+</body>
+</html>
