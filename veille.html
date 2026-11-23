@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Veille technologique — Romain Sauvaget</title>
+<meta name="description" content="Veille technologique BTS SIO SISR : vulnérabilités (CVE), cybersécurité, réseau et infrastructure.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+/* Palette adaptée aux daltoniens : bleu + orange + neutres */
+:root{--bg:#0D0F14;--bg2:#12151C;--card:#161921;--card2:#1E2230;--border:rgba(255,255,255,.08);--border2:rgba(255,255,255,.16);--text:#F0F2F7;--muted:#9AA3B8;--dim:#5C6478;--accent:#3A8FFF;--accent3:#66C2FF;--accent2:#E07B00;--r:14px;--ff-head:"Syne",sans-serif;--ff-body:"DM Sans",system-ui,sans-serif;--ff-mono:"DM Mono",ui-monospace,monospace}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--ff-body);line-height:1.65;overflow-x:hidden}
+a{color:var(--accent3)}a:hover{color:#fff}
+.container{width:min(1000px,100% - 32px);margin-inline:auto}
+nav{position:sticky;top:0;z-index:10;background:rgba(13,15,20,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+nav .container{display:flex;align-items:center;justify-content:space-between;height:62px;gap:12px}
+.logo{font-family:var(--ff-head);font-weight:800;font-size:1.15rem;color:var(--text);text-decoration:none}.logo span{color:var(--accent)}
+.nav-links{display:flex;gap:18px;flex-wrap:wrap}.nav-links a{color:var(--muted);text-decoration:none;font-size:.9rem;font-weight:500}.nav-links a:hover{color:var(--text)}
+header.hero{padding:72px 0 40px}
+.tag{display:inline-block;font-family:var(--ff-mono);font-size:.75rem;letter-spacing:.06em;color:var(--accent);background:rgba(58,143,255,.12);border:1px solid rgba(58,143,255,.35);border-radius:99px;padding:5px 14px;margin-bottom:20px}
+h1,h2,h3{line-height:1.2;margin:0 0 .5em}
+h1,h2{font-family:var(--ff-head);font-weight:800;letter-spacing:-.02em}
+h1{font-size:clamp(2rem,5vw,3.2rem)}h1 span{color:var(--accent)}
+h2{font-size:clamp(1.5rem,3vw,2rem)}
+h3{font-size:1.08rem}
+.lead{color:var(--muted);font-size:1.05rem;max-width:680px}
+.sec-tag{font-family:var(--ff-mono);font-size:.75rem;color:var(--accent2);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem}
+section{padding:48px 0}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:22px}
+.card p{margin:.4em 0 0;color:var(--muted)}
+.card h3{color:var(--accent3)}
+ul.arrow{list-style:none;padding:0;margin:.5em 0 0;display:grid;gap:5px;color:var(--muted)}
+ul.arrow li::before{content:"→ ";color:var(--accent);font-weight:600}
+.bulletin{border-top:1px solid var(--border)}
+.bulletin-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.bulletin-head .date{font-family:var(--ff-mono);font-size:.8rem;color:var(--dim)}
+.keypoints{background:linear-gradient(135deg,rgba(58,143,255,.08),rgba(224,123,0,.05));border:1px solid var(--border2);border-radius:var(--r);padding:20px 24px;margin-bottom:28px}
+.keypoints h3{font-family:var(--ff-head);color:var(--accent2);margin-bottom:.4em}
+.keypoints ol{margin:0;padding-left:20px;color:var(--muted);display:grid;gap:6px}
+.keypoints strong{color:var(--text)}
+.table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--r);margin-bottom:8px}
+table{width:100%;border-collapse:collapse;font-size:.88rem;min-width:760px}
+th,td{padding:11px 13px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
+th{background:var(--card);color:var(--muted);font-family:var(--ff-mono);font-size:.74rem;font-weight:500;letter-spacing:.04em;text-transform:uppercase}
+tr:last-child td{border-bottom:0}
+td.cve{font-family:var(--ff-mono);font-size:.8rem;white-space:nowrap;color:var(--accent3)}
+td.score{font-family:var(--ff-mono);font-weight:500;white-space:nowrap}
+.pill{display:inline-block;font-family:var(--ff-mono);font-size:.7rem;padding:2px 8px;border-radius:99px;white-space:nowrap}
+.pill.exploit{background:rgba(224,123,0,.16);color:#FFB04D;border:1px solid rgba(224,123,0,.4)}
+.pill.risk{background:rgba(58,143,255,.12);color:var(--accent3);border:1px solid rgba(58,143,255,.3)}
+.note{font-size:.8rem;color:var(--dim);margin:6px 0 0}
+.news{display:grid;gap:16px;margin-top:8px}
+.item{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:var(--r);padding:22px 24px}
+.item.orange{border-left-color:var(--accent2)}
+.item .meta{font-family:var(--ff-mono);font-size:.72rem;color:var(--accent2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+.item h3{font-family:var(--ff-head);font-size:1.12rem;margin-bottom:.4em}
+.item p{margin:.4em 0;color:var(--muted)}
+.why{margin-top:12px;padding:12px 14px;background:var(--bg2);border-radius:10px;border:1px solid var(--border);font-size:.92rem;color:var(--muted)}
+.why b{color:var(--text)}
+.src{font-size:.8rem;color:var(--dim);margin-top:10px}
+.src a{color:var(--dim)}
+.links{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.bts{background:linear-gradient(135deg,rgba(58,143,255,.08),var(--bg) 70%);border:1px solid rgba(58,143,255,.25);border-radius:var(--r);padding:22px}
+.bts h3{color:var(--accent);font-family:var(--ff-head)}
+.bts ul{list-style:none;padding:0;margin:.5em 0 0;display:grid;gap:5px;color:var(--muted)}
+.bts li::before{content:"✓ ";color:var(--accent);font-weight:700}
+ol.sources{color:var(--muted);font-size:.85rem;padding-left:20px;display:grid;gap:4px}
+footer{border-top:1px solid var(--border);padding:28px 0;text-align:center;color:var(--dim);font-size:.85rem;background:var(--bg2)}
+@media(max-width:600px){header.hero{padding:48px 0 24px}.item{padding:18px}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="container">
+    <a class="logo" href="index.html">SIO <span>SISR</span></a>
+    <div class="nav-links">
+      <a href="index.html">Accueil</a>
+      <a href="index.html#projets">Projets</a>
+      <a href="#methode">Méthode</a>
+      <a href="#bulletins">Bulletins</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <span class="tag">Veille technologique — BTS SIO SISR</span>
+    <h1>Cybersécurité, <span>réseau</span> et infrastructure</h1>
+    <p class="lead">Suivi mensuel des vulnérabilités critiques (CVE) et de l'actualité de la cybersécurité, du réseau et de l'infrastructure, avec pour chaque sujet son impact concret pour une entreprise.</p>
+  </div>
+</header>
+
+<!-- ===================== MÉTHODE ===================== -->
+<section id="methode">
+  <div class="container">
+    <div class="sec-tag">Méthode</div>
+    <h2>Comment je réalise ma veille</h2>
+    <div class="grid" style="margin-top:20px">
+      <div class="card">
+        <h3>1. Collecte</h3>
+        <p>Plusieurs fois par semaine, je consulte mes sources via un agrégateur de flux RSS et des alertes par mots-clés (Active Directory, VPN, pare-feu, VMware, Windows Server…).</p>
+      </div>
+      <div class="card">
+        <h3>2. Tri et analyse</h3>
+        <p>Je garde les sujets qui concernent un SI d'entreprise : vulnérabilités critiques ou exploitées, attaques marquantes, évolutions des équipements réseau et de la virtualisation.</p>
+      </div>
+      <div class="card">
+        <h3>3. Synthèse mensuelle</h3>
+        <p>Chaque mois, je publie un bulletin : les CVE à retenir, les actualités importantes, et pour chacune ce qu'il faudrait vérifier ou faire dans une entreprise.</p>
+      </div>
+    </div>
+    <div class="grid" style="margin-top:16px">
+      <div class="card">
+        <h3>Sources officielles</h3>
+        <ul class="arrow">
+          <li>CERT-FR / ANSSI : alertes, avis et bulletins d'actualité</li>
+          <li>Catalogue KEV de la CISA : vulnérabilités activement exploitées</li>
+          <li>Bulletins de sécurité des éditeurs (Microsoft, Broadcom/VMware, Cisco…)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Presse spécialisée</h3>
+        <ul class="arrow">
+          <li>BleepingComputer, The Hacker News</li>
+          <li>LeMagIT, IT-Connect, Zataz</li>
+          <li>Blogs de chercheurs en sécurité (Tenable, Kaspersky…)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== BULLETINS ===================== -->
+<section id="bulletins" style="padding-bottom:0">
+  <div class="container">
+    <div class="sec-tag">Bulletins</div>
+    <h2>Bulletins mensuels</h2>
+    <p class="lead" style="margin-bottom:0">Le bulletin le plus récent est en haut de la page.</p>
+  </div>
+</section>
+
+<!-- ===== Bulletin : novembre 2026 ===== -->
+<section class="bulletin" id="2026-11">
+  <div class="container">
+    <div class="bulletin-head">
+      <h2 style="margin:0">Novembre 2026</h2>
+      <span class="date">Publié le 23/11/2026</span>
+    </div>
+
+    <div class="keypoints">
+      <h3>À retenir ce mois-ci</h3>
+      <ol>
+        <li><strong>Les équipements de bordure sont la cible n°1</strong> : pare-feux, VPN et passerelles (Palo Alto, Check Point, Barracuda, Ivanti) sont activement exploités.</li>
+        <li><strong>La virtualisation est visée</strong> : une zero-day critique de VMware vCenter a été exploitée pendant plus de deux mois avant son correctif.</li>
+        <li><strong>Les identifiants restent la porte d'entrée</strong> : des rançongiciels ont chiffré des clusters ESXi et Proxmox sans exploiter aucune faille de l'hyperviseur.</li>
+        <li><strong>Patch Tuesday record</strong> : plus de 1 000 CVE corrigées par Microsoft, dont une zero-day Outlook et des failles critiques Active Directory et Exchange.</li>
+      </ol>
+    </div>
+
+    <h3 style="font-family:var(--ff-head);font-size:1.3rem;margin-top:8px">Vulnérabilités (CVE) à retenir</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>CVE</th><th>Produit</th><th>Type</th><th>CVSS</th><th>Statut</th><th>Action recommandée</th></tr></thead>
+        <tbody>
+          <tr><td class="cve">CVE-2026-123890</td><td>VMware vCenter Server</td><td>Contournement d'authentification → session administrateur</td><td class="score">9.8</td><td><span class="pill exploit">Exploitée</span></td><td>Mettre à jour (8.0 U3m, 9.0.2.0200, 9.1.1.0200) puis rechercher des comptes SSO inconnus</td></tr>
+          <tr><td class="cve">CVE-2026-109618<br>CVE-2026-109619</td><td>Palo Alto PAN-OS, Citrix NetScaler, F5 BIG-IP, Cisco Expressway…</td><td>Exécution de code à distance sans authentification (« PHP2Shell »)</td><td class="score">Critique</td><td><span class="pill exploit">Exploitée</span></td><td>Appliquer les correctifs des constructeurs, restreindre l'accès aux interfaces d'administration</td></tr>
+          <tr><td class="cve">CVE-2026-123158</td><td>OpenSSH (Linux avec musl, sans PAM)</td><td>Contournement d'authentification</td><td class="score">—</td><td><span class="pill exploit">Exploitée</span></td><td>Vérifier la configuration, mettre à jour, sinon désactiver l'authentification par mot de passe</td></tr>
+          <tr><td class="cve">CVE-2026-111357<br>CVE-2026-118527</td><td>Ivanti Connect Secure (VPN)</td><td>Élévation de privilèges, dépôt de fichiers</td><td class="score">—</td><td><span class="pill exploit">Exploitée</span></td><td>Mettre à jour en 22.8Rx ou 25.1.1.x</td></tr>
+          <tr><td class="cve">CVE-2026-123039</td><td>Check Point (pare-feu / VPN)</td><td>Mauvaise attribution de permissions</td><td class="score">—</td><td><span class="pill exploit">Exploitée</span></td><td>Appliquer le correctif de l'éditeur</td></tr>
+          <tr><td class="cve">CVE-2026-124194</td><td>Microsoft Outlook</td><td>Usurpation : vol du hash NTLMv2 via un fichier Office piégé</td><td class="score">6.5</td><td><span class="pill exploit">Exploitée</span></td><td>Déployer le Patch Tuesday, limiter NTLM sortant</td></tr>
+          <tr><td class="cve">CVE-2026-118146</td><td>Active Directory Domain Services</td><td>Exécution de code à distance</td><td class="score">8.8</td><td><span class="pill risk">Exploitation probable</span></td><td>Corriger en priorité les contrôleurs de domaine</td></tr>
+          <tr><td class="cve">CVE-2026-118207</td><td>Microsoft Exchange Server</td><td>Exécution de code à distance</td><td class="score">8.8</td><td><span class="pill risk">Exploitation probable</span></td><td>Mettre à jour les serveurs Exchange</td></tr>
+          <tr><td class="cve">CVE-2026-113862</td><td>Windows NAT</td><td>Exécution de code à distance</td><td class="score">8.1</td><td><span class="pill risk">Exploitation probable</span></td><td>Déployer le Patch Tuesday sur les serveurs assurant du NAT</td></tr>
+          <tr><td class="cve">CVE-2026-95731</td><td>HPE Aruba Networking Fabric Composer</td><td>Élévation de privilèges</td><td class="score">9.8</td><td><span class="pill risk">Critique</span></td><td>Appliquer le correctif HPE</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">« Exploitée » : attaques constatées (catalogue KEV de la CISA, alertes CERT-FR ou éditeur). « Exploitation probable » : évaluation de l'éditeur. « — » : score non communiqué dans les sources consultées.</p>
+
+    <h3 style="font-family:var(--ff-head);font-size:1.3rem;margin-top:36px">Actualités</h3>
+    <div class="news">
+
+      <article class="item">
+        <div class="meta">Virtualisation · 20 novembre 2026</div>
+        <h3>Zero-day VMware vCenter : un groupe d'espionnage dans les infrastructures depuis septembre</h3>
+        <p>Le groupe Armory Castle, soupçonné d'être lié à la Chine, a exploité la faille CVE-2026-123890 de vCenter dès début septembre, alors que le correctif n'est sorti que le 19 novembre. Les attaquants ont créé des comptes administrateurs SSO, activé SSH, ajouté leurs clés sur les hôtes ESXi et volé des données, en passant aussi par une faille BeyondTrust Remote Support.</p>
+        <div class="why"><b>Pourquoi c'est important :</b> vCenter pilote toutes les machines virtuelles d'une entreprise. Ici, appliquer le correctif ne suffit pas : il faut aussi chercher les traces d'une intrusion déjà en place (comptes inconnus, clés SSH ajoutées, SSH activé sans raison).</div>
+        <p class="src">Source : <a href="https://thehackernews.com/2026/11/china-linked-hackers-exploit-critical.html">The Hacker News</a></p>
+      </article>
+
+      <article class="item">
+        <div class="meta">Réseau · 3 novembre 2026</div>
+        <h3>« PHP2Shell » : les pare-feux et passerelles VPN attaqués en chaîne</h3>
+        <p>Deux failles critiques permettent d'exécuter du code à distance sans authentification sur des équipements de sécurité de plusieurs constructeurs : Palo Alto PAN-OS, Citrix NetScaler, F5 BIG-IP, Cisco Expressway et Fortinet FortiSOAR. Sur les pare-feux Palo Alto, les attaquants les combinent avec une faille du noyau Linux pour obtenir les droits root.</p>
+        <div class="why"><b>Pourquoi c'est important :</b> le pare-feu est censé protéger le réseau. S'il est compromis, l'attaquant est directement à l'intérieur. Règle à retenir : <b>l'interface d'administration d'un pare-feu ne doit jamais être exposée sur Internet.</b></div>
+        <p class="src">Source : <a href="https://www.csa.gov.sg/alerts-and-advisories/alerts/al-2026-157/">Cyber Security Agency of Singapore, alerte AL-2026-157</a></p>
+      </article>
+
+      <article class="item orange">
+        <div class="meta">Infrastructure · 11 novembre 2026</div>
+        <h3>ESXi et Proxmox chiffrés par des rançongiciels… sans aucune faille</h3>
+        <p>Kaspersky a analysé deux attaques. Sur ESXi (rançongiciel BlackNevas), l'attaquant est passé par l'outil de supervision PRTG, qui avait un large accès aux hôtes, puis a utilisé un mot de passe root réutilisé sur plusieurs serveurs. Sur Proxmox (The Gentlemen), il a trouvé les identifiants root stockés en clair dans les notes d'un administrateur, puis a chiffré tout le cluster.</p>
+        <div class="why"><b>Pourquoi c'est important :</b> les correctifs ne protègent pas contre de mauvaises pratiques. Il faut des mots de passe uniques par serveur, un coffre-fort de mots de passe, des droits limités pour les comptes de supervision et un réseau d'administration isolé.</div>
+        <p class="src">Source : <a href="https://tbreak.com/esxi-proxmox-ransomware-no-hypervisor-flaw/">tbreak, d'après Kaspersky GERT</a></p>
+      </article>
+
+      <article class="item">
+        <div class="meta">Microsoft · 10 novembre 2026</div>
+        <h3>Patch Tuesday : plus de 1 000 vulnérabilités corrigées, dont une zero-day Outlook</h3>
+        <p>Microsoft a corrigé 1 093 CVE, dont 63 critiques. La zero-day Outlook (CVE-2026-124194) permet de voler le hash NTLMv2 d'un utilisateur qui ouvre un fichier Office piégé, puis de se faire passer pour lui. Des failles d'exécution de code à distance touchent aussi Active Directory, Exchange, Schannel et le service NAT de Windows.</p>
+        <div class="why"><b>Pourquoi c'est important :</b> avec autant de correctifs, il faut prioriser : d'abord les failles exploitées, puis les serveurs critiques (contrôleurs de domaine, Exchange). Les attaques sur NTLM montrent aussi l'intérêt de réduire son usage au profit de Kerberos.</div>
+        <p class="src">Source : <a href="https://www.tenable.com/blog/microsoft-november-2026-patch-tuesday-addresses-1093-cves-cve-2026-124194">Tenable</a></p>
+      </article>
+
+      <article class="item orange">
+        <div class="meta">France · 9 novembre 2026</div>
+        <h3>L'ANSSI attribue à l'Iran des sabotages d'équipements industriels en France</h3>
+        <p>Les 11 et 12 octobre, les contrôleurs de froid d'environ 700 magasins de grande distribution ont été compromis : les paramètres de dégivrage ont été modifiés, avec des pertes de marchandises et au moins 15 incendies. De petites centrales hydroélectriques équipées de matériel Schneider Electric ont aussi été visées, avec des effets modérés. Le CERT-FR relie ces campagnes à des unités liées aux Gardiens de la révolution iraniens.</p>
+        <div class="why"><b>Pourquoi c'est important :</b> les équipements industriels et techniques (froid, chauffage, automates) sont souvent connectés au réseau sans être gérés par le service informatique. Il faut les recenser, les isoler dans un VLAN dédié et ne jamais les exposer directement sur Internet.</div>
+        <p class="src">Source : <a href="https://lenergeek.com/2026/11/20/cyberattaque-petites-centrales-hydroelectriques-anssi-iran-novembre-2026-1633/">L'EnerGeek</a>, d'après le rapport CERT-FR CERTFR-2026-CTI-009</p>
+      </article>
+
+      <article class="item">
+        <div class="meta">Linux · 9 novembre 2026</div>
+        <h3>OpenSSH : une faille d'authentification triviale à exploiter dans certaines configurations</h3>
+        <p>Le CERT-FR alerte sur la faille CVE-2026-123158, qui permet de contourner l'authentification SSH sur les systèmes Linux utilisant la bibliothèque musl (par exemple Alpine Linux), sans PAM ou avec PAM désactivé. La faille est activement exploitée.</p>
+        <div class="why"><b>Pourquoi c'est important :</b> SSH est utilisé partout pour administrer les serveurs Linux et les conteneurs. Les bonnes pratiques limitent le risque : authentification par clé plutôt que par mot de passe, SSH accessible uniquement depuis le réseau d'administration, et redémarrage de sshd après la mise à jour.</div>
+        <p class="src">Source : <a href="https://www.cert.cyber.gouv.fr/actualite/CERTFR-2026-ACT-047">CERT-FR, bulletin CERTFR-2026-ACT-047</a></p>
+      </article>
+
+    </div>
+
+    <h3 style="font-family:var(--ff-head);font-size:1.3rem;margin-top:36px">Lien avec mes projets</h3>
+    <div class="links">
+      <div class="card"><h3>Audit Active Directory &amp; GPO</h3><p>Les failles AD DS et NTLM de ce mois confirment l'intérêt de l'audit PingCastle, de la restriction des comptes à privilèges et du déploiement du coffre-fort de mots de passe par GPO.</p></div>
+      <div class="card"><h3>Migration de machines virtuelles</h3><p>Les attaques sur vCenter, ESXi et Proxmox montrent qu'une infrastructure virtualisée doit avoir un réseau d'administration isolé et des identifiants uniques, quelle que soit la solution retenue (Azure ou serveurs mutualisés).</p></div>
+      <div class="card"><h3>GrandLine TCG — Infrastructure</h3><p>La segmentation DMZ/LAN, SSH réservé au LAN, PermitRootLogin désactivé et Fail2ban correspondent exactement aux mesures recommandées face aux attaques de ce mois sur SSH et les équipements exposés.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== COMPÉTENCES ===================== -->
+<section>
+  <div class="container">
+    <div class="bts">
+      <h3>Compétence BTS SIO — B1.6 « Organiser son développement professionnel »</h3>
+      <ul>
+        <li>Mettre en œuvre des outils et stratégies de veille informationnelle (agrégateur RSS, alertes, sources officielles)</li>
+        <li>Veille régulière (bulletin mensuel) visant à repérer les évolutions du domaine</li>
+        <li>Analyse de l'information et lien avec mes réalisations professionnelles</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>© 2026 Portfolio BTS SIO SISR — Romain Sauvaget · <a href="index.html">Retour à l'accueil</a></footer>
+</body>
+</html>
